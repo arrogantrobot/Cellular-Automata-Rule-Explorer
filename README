@@ -1,0 +1,47 @@
+Dependencies - Ubuntu 9.04 package names
+=========================================
+- build-essential
+- libgnomeui-dev
+
+In order to compile and execute the program, execute run.sh. If
+run.sh does not execute, try 'chmod +x run.sh' before './run.sh'
+
+
+
+This program implements a one dimensional, binary, cellular automaton based on
+Wolfram Notation. A single row of active cells is used to generate one row of 
+pixels at a time, which "grow" out of the active cell like a fingernail, one 
+row at a time. There are controls which allow the operator to change the rule 
+as the program is running. This is where one may observe abrupt changes in 
+style or color. Often horizontal lines will be implied by the differing styles.
+
+Operation
+=========
+
+When the program loads, the default rule will be loaded and the default seed 
+set to all cells off, save for one in the middle. In order to watch rule 30
+proceed, press the "start" button to the left of the main image. The user may
+change the rule as the cellular automaton is operating or may pause by pressing
+the "stop" button and then changing the rule.
+
+Images may be saved by pressing the "save" button. If the auto-save toggle is 
+turned on, images will be saved automatically every time an entire screen-
+full of lines has been produced.
+
+Meta-Rules are defined by .rules files in this directory. These .rules files
+contain only text which defines the meta-rules. The first line is the number of
+milliseconds between rule changes. The following lines contain the allowed 
+rules to use. The meta-rule functionality allows the user to automate rule 
+changes. The rule will randomly change from one listed rule to another at the
+specified interval.
+
+Please check out:
+
+http://automatown.org 
+
+to see some examples of output. I also have a more indepth explanation of 
+cellular automata in general and this CA specifically.
+
+by
+Rob Long
+
