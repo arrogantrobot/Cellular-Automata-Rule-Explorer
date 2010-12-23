@@ -19,7 +19,7 @@
 #define ROW_LOWER_BOUND 1
 #define ROW_UPPER_BOUND 255
 
-#define LOOPTIME 35 //in milliseconds
+#define LOOPTIME 30 //in milliseconds
 
 #define ICON_16 "./data/CA_icon_16.png"
 #define ICON_32 "./data/CA_icon_32.png"

@@ -59,7 +59,6 @@ void CellularAutomaton::calcNewRow()
 	{
 		index=0;
 		
-		//for the first cell, use the last cell as it's left-neighbor
 		if(i==0)
 		{
 			if((*past)[width-1])
@@ -67,7 +66,6 @@ void CellularAutomaton::calcNewRow()
 				index+=1;
 			}
 		}
-		//otherwise the left neighbor is i-1
 		else
 		{
 			if((*past)[(i-1)%width])
@@ -75,13 +73,11 @@ void CellularAutomaton::calcNewRow()
 				index+=1;
 			}
 		}
-		//get the value of the cell i
 		if((*past)[i%width])
 		{
 			index+=2;
 		}
 
-		//if using the rightmost cell, wrap to use the first cell
 		if(i==(width-1))
 		{
 			if((*past)[0])
@@ -89,7 +85,6 @@ void CellularAutomaton::calcNewRow()
 				index+=4;
 			}
 		}
-		//if not rightmost cell, just use cell i+1
 		else
 		{
 			if((*past)[(i+1)%width])
