@@ -30,6 +30,7 @@
 #define FILENAME "ca_image_"
 #define FILETYPE "png"
 #define SEEDFILE "seedfile.dat"
+#define PIX_PER_CELL 10
 
 bool randomizeLength = FALSE, autoReset = FALSE;
 bool savePics;
@@ -42,6 +43,7 @@ int HEIGHT;
 int ruleChangeInterval;
 int maxRuleChangeInterval;
 int deadCount;
+int cellsWide;
 
 std::vector<int> rules;
 
@@ -83,6 +85,7 @@ gint randomizeLengthFunction(gpointer data);
 int main(int argc, char** argv) {
     //start gnome_init
     initGUI(argc, argv);
+    cellsWide = DEFAULT_WIDTH / PIX_PER_CELL;
 
     //GUI components
     GtkWidget *window;
@@ -220,10 +223,10 @@ int main(int argc, char** argv) {
     gtk_widget_show_all(window);
 
     //load black and white pixels into buffers
-    blackb = gdk_pixbuf_new_subpixbuf(imagebuf, 0, 0, 1, 1);
+    blackb = gdk_pixbuf_new_subpixbuf(imagebuf, 0, 0, PIX_PER_CELL, PIX_PER_CELL);
     black = gdk_pixbuf_copy(blackb);
     gdk_pixbuf_fill(black, 0x000000ff);
-    whiteb = gdk_pixbuf_new_subpixbuf(imagebuf, 0, 0, 1, 1);
+    whiteb = gdk_pixbuf_new_subpixbuf(imagebuf, 0, 0, PIX_PER_CELL, PIX_PER_CELL);
     white = gdk_pixbuf_copy(whiteb);
     gdk_pixbuf_fill(white, 0xffffffff);
 
@@ -267,14 +270,14 @@ void updateRule(GtkWidget *adjustor) {
 void redrawImage() {
     numLines++;
     //copy the existing image, without the topmost row
-    buf = gdk_pixbuf_new_subpixbuf(imagebuf, 0, 0, WIDTH, HEIGHT - 1);
+    buf = gdk_pixbuf_new_subpixbuf(imagebuf, 0, 0, WIDTH, HEIGHT - PIX_PER_CELL);
     //place that copy into a new buffer
     buf2 = gdk_pixbuf_copy(buf);
     //release the memory of the first buffer
     gdk_pixbuf_unref(buf);
 
     //copy the second buffer
-    gdk_pixbuf_copy_area(buf2, 0, 0, WIDTH, HEIGHT - 1, imagebuf, 0, 1);
+    gdk_pixbuf_copy_area(buf2, 0, 0, WIDTH, HEIGHT - PIX_PER_CELL, imagebuf, 0, PIX_PER_CELL);
     //release the second buffer
     gdk_pixbuf_unref(buf2);
 
@@ -288,7 +291,7 @@ void redrawImage() {
         } else {
             color = white;
         }
-        gdk_pixbuf_copy_area(color, 0, 0, 1, 1, imagebuf, i, 0);
+        gdk_pixbuf_copy_area(color, 0, 0, PIX_PER_CELL, PIX_PER_CELL, imagebuf, i * PIX_PER_CELL, 0);
     }
     //copy imagebuf onto the screen
     gtk_image_set_from_pixbuf(GTK_IMAGE(mainImage),imagebuf);
@@ -402,9 +405,9 @@ void initCA() {
 
     //populate the initialization vector entirely with off cells, with one
     // one cell at the midway through the vector
-    for (unsigned int i = 0; i < width; i++) {
+    for (unsigned int i = 0; i < cellsWide; i++) {
         init_vect->push_back(seed);
-        if (i == (width / 2) || i == ((width / 2) + 1)) {
+        if (i == (cellsWide / 2) || i == ((cellsWide / 2) + 1)) {
             seed = !seed;
         }
     }
